@@ -8,6 +8,7 @@ const browserify = require('browserify');
 const watchify = require('watchify');
 const source = require('vinyl-source-stream');
 const buffer = require('vinyl-buffer');
+const MergeStream = require('merge-stream');
 const rimraf = require('rimraf');
 const projectRoot = '/project/';
 const paths = {
@@ -39,11 +40,15 @@ const paths = {
     watch: 'src/img/**/*.{gif,jpg,png,svg}',
     dest: path.join('dist', projectRoot, 'img')
   },
-  copy: {
+  copy: [{
     src: 'src/assets/**/*',
     watch: 'src/assets/**/*',
     dest: path.join('dist', projectRoot)
-  }
+  }, {
+    src: 'assets/**/*',
+    watch: 'assets/**/*',
+    dest: 'dist'
+  }]
 };
 let isProduction = false;
 let isWatchingJS = false;
@@ -123,8 +128,10 @@ gulp.task('img', () =>
 );
 
 gulp.task('copy', () =>
-  gulp.src(paths.copy.src)
-    .pipe(gulp.dest(paths.copy.dest))
+  new MergeStream(...paths.copy.map(({src, dest}) =>
+    gulp.src(src)
+      .pipe(gulp.dest(dest))
+  ))
     .pipe(browserSync.stream())
 );
 
@@ -158,5 +165,5 @@ gulp.task('watch', ['enable-watch-js', 'build', 'serve'], () => {
   gulp.watch(paths.html.watch, ['html']);
   gulp.watch(paths.css.watch, ['css']);
   gulp.watch(paths.img.watch, ['img']);
-  gulp.watch(paths.copy.watch, ['copy']);
+  gulp.watch(paths.copy.map(({watch}) => watch), ['copy']);
 });

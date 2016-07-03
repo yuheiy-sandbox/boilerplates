@@ -25,6 +25,7 @@
     "gulp-sourcemaps": "^1.6.0",
     "gulp-uglify": "^1.5.4",
     "gulp-util": "^3.0.7",
+    "merge-stream": "^1.0.0",
     "rimraf": "^2.5.2",
     "run-sequence": "^1.2.2",
     "vinyl-buffer": "^1.0.0",
@@ -32,7 +33,7 @@
     "watchify": "^3.7.0"
   },
   "engines": {
-    "node": ">=5.0.0"
+    "node": ">=6.0.0"
   },
   "private": true,
   "scripts": {
