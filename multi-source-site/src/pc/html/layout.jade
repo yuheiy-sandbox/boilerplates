@@ -1,0 +1,38 @@
+- var isHome = path === '/';
+
+doctype html
+html(lang="ja")
+  head(prefix="og: http://ogp.me/ns#")
+    meta(charset="utf-8")
+    script.
+      (function () {
+        'use strict';
+        var userAgent = navigator.userAgent;
+        var root = '/project/';
+        var isMobile = ['iPhone', 'iPad', 'Android', 'Mobile']
+          .some(function (name) {
+            return userAgent.indexOf(name) > -1
+          });
+        if (isMobile) {
+          location.replace(location.pathname.replace(root, root + 'sp/'));
+        }
+      })();
+    if isHome
+      title= title
+    else
+      title= `${title} - ${siteName}`
+    meta(name="description", content= description)
+    meta(property="og:title", content= title)
+    meta(property="og:type", content= 'website')
+    meta(property="og:image", content= origin + root + ogImage)
+    meta(property="og:url", content= origin + root)
+    meta(property="og:description", content= description)
+    meta(property="og:locale", content="ja_JP")
+    meta(property="og:site_name", content= siteName)
+    meta(property="twitter:card", content="summary_large_image")
+    link(rel="alternate", href="#{root}sp#{path}", media="only screen and (max-width: 640px)")
+    link(rel="stylesheet", href="#{typeRoot}css/style.css")
+
+  body
+    block content
+    script(src="#{typeRoot}js/bundle.js")
