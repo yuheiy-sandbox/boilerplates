@@ -76,7 +76,7 @@ gulp.task('css', () =>
     .pipe($.if(!isProduction, $.sourcemaps.init({loadMaps: true})))
     .pipe($.sass().on('error', $.sass.logError))
     .pipe($.autoprefixer({
-      browsers: ['last 1 version', 'Android >= 4.0', 'iOS > 9', '> 5%'],
+      browsers: ['last 1 version', 'Android >= 4.4', 'iOS >= 8', '> 5%'],
       cascade: false
     }))
     .pipe($.if(isProduction, $.cssnano()))
